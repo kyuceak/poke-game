@@ -1,10 +1,12 @@
 
 
-function ScoreBoard()
+function PokemonCard()
 {
+
+
 
 }
 
 
 
-export default ScoreBoard;
+export default PokemonCard;

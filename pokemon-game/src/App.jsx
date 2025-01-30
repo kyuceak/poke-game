@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DifficultySelector from "./components/difficulty-selector";
 import "./App.css";
 import "@fontsource/press-start-2p";
-import ScoreBoard from "./components/pokemon-card";
+import ScoreBoard from "./components/score-board";
 import GameBoard from "./components/game-board";
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
@@ -44,6 +44,9 @@ function App() {
       setLoading(false);
       setGameStarted(true);
       
+      console.log("GELDİM",gameStarted)
+      
+      
     } catch (error) {
       console.error("Failed to fetch pokemon data: ", error);
     }
@@ -51,6 +54,7 @@ function App() {
 
   useEffect(() => {
     if (difficulty) {
+      
       fetchPokemonData(difficultySettings[difficulty], offset);
       console.log("geldim"+" load state: ",loading);
       
@@ -82,7 +86,7 @@ function App() {
     
       {gameStarted ? (
           <> 
-      <ScoreBoard score={score} highScore={highScore} />
+      <ScoreBoard score={score} highScore={highScore} totalCards={difficultySettings[difficulty]}/>
       <GameBoard/>
       </> 
 
