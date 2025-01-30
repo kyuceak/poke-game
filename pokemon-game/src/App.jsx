@@ -4,6 +4,7 @@ import "./App.css";
 import "@fontsource/press-start-2p";
 import ScoreBoard from "./components/score-board";
 import GameBoard from "./components/game-board";
+import GameOver from "./components/game-over";
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
@@ -13,6 +14,8 @@ function App() {
   const [offset, setOffset] = useState(0);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [resetToggle,setResetToggle] = useState(false);
+  const [gameLost, setGameLost] = useState(false);
 
 
   const difficultySettings = {
@@ -60,25 +63,30 @@ function App() {
       
       setOffset(offset + difficultySettings[difficulty]);
     }
-  }, [difficulty]);
+  }, [difficulty,resetToggle]);
 
 
   const handleCardSelect = (id) => {
     if(selectedCards.includes(id))
     {
       console.log("You Lost!");
+      setGameLost(true);
       resetGame();
     }else{
       setSelectedCards([...selectedCards, id]);
       setScore(score + 1);
       if(score + 1 > highScore ) setHighScore(score + 1);
-      setPokemonData(prev => [...prev].sort());
+      setPokemonData(prev => [...prev].sort(() => Math.random() - 0.5));
     }
 
   }
 
   const resetGame = () => {
-
+    setSelectedCards(0);
+    setScore(0);
+    setLoading(true);
+    setResetToggle(!resetToggle);
+    setGameLost(false);
   }
 
   return (
@@ -87,7 +95,11 @@ function App() {
       {gameStarted ? (
           <> 
       <ScoreBoard score={score} highScore={highScore} totalCards={difficultySettings[difficulty]}/>
-      <GameBoard/>
+      <GameBoard 
+      pokemonData={pokemonData}
+      handleCardSelect={handleCardSelect}/>
+
+      {gameLost && <GameOver resetGame={resetGame}/>}
       </> 
 
       ) : (
