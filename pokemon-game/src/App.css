@@ -1,0 +1,14 @@
+
+
+body{
+  margin: 0;
+  height: 100vh;
+  background-image: url("./assets/Pokémon___Ash_Ketchum,_starting_village_upscaled.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+body * {
+  font-family: "Press Start 2P",sans-serif;
+
+}
