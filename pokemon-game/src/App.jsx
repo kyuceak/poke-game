@@ -85,7 +85,6 @@ function App() {
     if (selectedCards.includes(id)) {
       console.log("You Lost!");
       setGameLost(true);
-      resetLevel();
     } else {
       setSelectedCards([...selectedCards, id]);
       setScore(score + 1);
@@ -100,16 +99,18 @@ function App() {
     setSelectedCards([]);
     setScore(0);
     setResetToggle(!resetToggle);
-    setGameLost(false);
+    // setGameLost(false);
   };
 
   const resetGame = () => {
+    
     setSelectedCards([]);
     setScore(0);
     setHighScore(0);
     setDifficulty(null);
     setGameStarted(false);
-    setGameLost(false);
+    setLoading(false);
+    // setGameLost(false);
   }
 
   return (
@@ -133,7 +134,9 @@ function App() {
             shuffleCount={shuffleCount}
           />
 
-          {gameLost && <GameOver resetLevel={resetLevel} />}
+          {gameLost && <GameOver resetLevel={resetLevel} resetGame={resetGame} setLoading={setLoading} setGameLost={setGameLost}/>}
+
+          
         </>
       ) : (
         <DifficultySelector

@@ -21,7 +21,7 @@
   text-align: center;
   transform-style: preserve-3d;
   
-  animation: flip-card 2s;
+  animation: flip-card 1.2s;
 }
 
 .card-front {

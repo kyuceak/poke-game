@@ -4,4 +4,5 @@
     gap: 1rem;
     padding: 2rem 8rem;
     justify-content: center;
+    z-index: 0;
 }
