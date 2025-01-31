@@ -16,7 +16,11 @@ function App() {
   const [highScore, setHighScore] = useState(0);
   const [resetToggle, setResetToggle] = useState(false);
   const [gameLost, setGameLost] = useState(false);
-  
+  const [shuffleCount, setShuffleCount] = useState(0);
+
+// On card redistribution:
+
+
   const difficultySettings = {
     Easy: 5,
     Medium: 10,
@@ -82,23 +86,32 @@ function App() {
     if (selectedCards.includes(id)) {
       console.log("You Lost!");
       setGameLost(true);
-      resetGame();
+      resetLevel();
     } else {
       setSelectedCards([...selectedCards, id]);
       setScore(score + 1);
       if (score + 1 > highScore) setHighScore(score + 1);
       setPokemonData((prev) => shuffleArray([...prev]));
+      setShuffleCount((prev) => prev + 1); // Force re-render by updating the key
     }
   };
 
-  const resetGame = () => {
+  const resetLevel = () => {
     setLoading(true);
     setSelectedCards([]);
     setScore(0);
-
     setResetToggle(!resetToggle);
     setGameLost(false);
   };
+
+  const resetGame = () => {
+    setSelectedCards([]);
+    setScore(0);
+    setHighScore(0);
+    setDifficulty(null);
+    setGameStarted(false);
+    setGameLost(false);
+  }
 
   return (
     <>
@@ -113,13 +126,15 @@ function App() {
             score={score}
             highScore={highScore}
             totalCards={difficultySettings[difficulty]}
+            resetGame={resetGame}
           />
           <GameBoard
             pokemonData={pokemonData}
             handleCardSelect={handleCardSelect}
+            shuffleCount={shuffleCount}
           />
 
-          {gameLost && <GameOver resetGame={resetGame} />}
+          {gameLost && <GameOver resetLevel={resetLevel} />}
         </>
       ) : (
         <DifficultySelector

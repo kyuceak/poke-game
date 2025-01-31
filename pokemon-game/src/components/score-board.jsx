@@ -1,12 +1,12 @@
 import "../styles/score-style.css"
 
-function ScoreBoard({ score, highScore, totalCards }) {
+function ScoreBoard({ score, highScore, totalCards,resetGame }) {
     
 
 
   return (
     <div className="header">
-      <h2>Poke Memory Cards!</h2>
+      <button onClick={resetGame}>Poke Memory Cards!</button>
       
       <div className="scores">
       <h4>Score:{score}</h4>

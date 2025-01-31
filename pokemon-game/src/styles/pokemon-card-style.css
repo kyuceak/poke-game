@@ -1,3 +1,7 @@
+.mycontainer{
+    perspective: 1000px;
+}
+
 .poke-card {
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
@@ -11,17 +15,52 @@
   box-sizing: border-box;
   border-radius: 0.6rem;
   color: white;
+
+ 
+  position: relative;
+  text-align: center;
+  transform-style: preserve-3d;
+  
+  animation: flip-card 2s;
+}
+
+.card-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
 }
 
-.poke-card img {
+.card-front,
+.card-back {
+  position: absolute;
+  backface-visibility: hidden;
+}
+.card-back {
+  transform: rotateY(180deg);
+  width: 180px;
+  height: 250px;
+}
+.card-back img{
+    height: 250px !important;
+}
 
+.poke-card img {
   width: 100%;
   height: 200px;
 }
 
 .poke-card p {
-
   margin: 0;
- 
+}
+
+@keyframes flip-card {
+  0% {
+    transform: rotateY(180deg);
+    pointer-events: none;
+  }
+
+  100% {
+    transform: rotateY(0deg);
+  }
 }

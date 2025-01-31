@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/difficulty-style.css";
 
-function DifficultySelector({ onSelectDifficulty, loading, setLoading }) {
+function DifficultySelector({ onSelectDifficulty, setLoading }) {
   const difficulties = ["Easy", "Medium", "Hard"];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -33,6 +33,7 @@ function DifficultySelector({ onSelectDifficulty, loading, setLoading }) {
   }, [selectedIndex, difficulties, onSelectDifficulty]);
 
   return  (
+    <div className="overlay">
     <div className="modal">
       <div className="diff-container">
         <h2>Select Difficulty</h2>
@@ -56,6 +57,7 @@ function DifficultySelector({ onSelectDifficulty, loading, setLoading }) {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }
