@@ -32,32 +32,32 @@ function DifficultySelector({ onSelectDifficulty, setLoading }) {
     };
   }, [selectedIndex, difficulties, onSelectDifficulty]);
 
-  return  (
+  return (
     <div className="overlay">
-    <div className="modal">
-      <div className="diff-container">
-        <h2>Select Difficulty</h2>
-        <div className="options">
-          {difficulties.map((level, index) => (
-            <button
-              key={level}
-              className={index === selectedIndex ? "selected" : ""}
-              onClick={() => {
-                setLoading(true);
-                onSelectDifficulty(level);
-              }}
-            >
-              <span
-                className={`arrow ${index === selectedIndex ? "blink" : ""}`}
+      <div className="modal">
+        <div className="diff-container">
+          <h2>Select Difficulty</h2>
+          <div className="options">
+            {difficulties.map((level, index) => (
+              <button
+                key={level}
+                className={index === selectedIndex ? "selected" : ""}
+                onClick={() => {
+                  setLoading(true);
+                  onSelectDifficulty(level);
+                }}
               >
-                &#9654;
-              </span>
-              {level}
-            </button>
-          ))}
+                <span
+                  className={`arrow ${index === selectedIndex ? "blink" : ""}`}
+                >
+                  &#9654;
+                </span>
+                {level}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ function App() {
   const [resetToggle, setResetToggle] = useState(false);
   const [gameLost, setGameLost] = useState(false);
   const [shuffleCount, setShuffleCount] = useState(0);
-
+ 
 
 
   const difficultySettings = {
@@ -27,38 +27,56 @@ function App() {
     Hard: 15,
   };
 
-  const fetchPokemonData = async (limit, offset) => {
-    try {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`
+  function generateNumber(max)
+  {
+    return Math.floor(Math.random() * max) + 1;
+  }
+  const fetchPokemonData = async () => {
+    let count = difficultySettings[difficulty]; // Number of Pokémon to fetch
+    let promises = [];
+    let list = []
+  
+    for (let i = 0; i < count; i++) {
+      let randomNum = generateNumber(100); // generate random Pokémon ID
+      if(list.includes(randomNum))
+      {
+        count++;
+        continue
+      }
+      else{
+        list.push(randomNum);
+      }
+    
+  
+      // push fetch promises into the array
+      promises.push(
+        fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`)
+          .then((response) => response.json())
+          .then((data) => ({
+            id: data.id,
+            name: data.name,
+            image: data.sprites.front_default,
+          }))
+          .catch((error) => {
+            console.error(`Failed to fetch Pokémon with ID ${randomNum}:`, error);
+          })
       );
-      const data = await response.json();
-
-      const fetchedData = data.results.map((poke) => {
-        const urlArr = poke.url.split("/");
-        const pokeId = urlArr[urlArr.length - 2];
-
-        const object = {
-          id: pokeId,
-          name: poke.name,
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId}.png`,
-        };
-
-        return object;
-      });
-      setPokemonData(fetchedData);
+    }
+  
+    try {
+      const fetchedData = await Promise.all(promises); // wait for all requests to complete
+      setPokemonData(fetchedData.filter(Boolean)); 
       setLoading(false);
       setGameStarted(true);
-
-      // console.log("GELDİM",gameStarted)
     } catch (error) {
-      console.error("Failed to fetch pokemon data: ", error);
+      console.error("Failed to fetch all Pokémon data:", error);
     }
   };
+  
 
   useEffect(() => {
     if (difficulty) {
-      fetchPokemonData(difficultySettings[difficulty], offset + 15);
+      fetchPokemonData();
       // console.log("geldim"+" load state: ",loading);
 
       setOffset(offset + difficultySettings[difficulty]);
@@ -119,7 +137,7 @@ function App() {
 
     setSelectedCards([]);
     setScore(0);
-    setLoading(false);
+    
    
     if(difficulty == "Easy")
     {
