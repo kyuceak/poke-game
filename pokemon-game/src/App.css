@@ -3,7 +3,7 @@
 body{
   margin: 0;
   min-height: 100vh;
-  background-image: url("./assets/Pokémon___Ash_Ketchum,_starting_village_upscaled.jpeg");
+  background-image: url("/public/Pokémon___Ash_Ketchum,_starting_village_upscaled.jpeg");
   background-size: cover;
   background-position: center;
 }
