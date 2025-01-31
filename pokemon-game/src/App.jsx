@@ -14,10 +14,9 @@ function App() {
   const [offset, setOffset] = useState(0);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [resetToggle,setResetToggle] = useState(false);
+  const [resetToggle, setResetToggle] = useState(false);
   const [gameLost, setGameLost] = useState(false);
-
-
+  
   const difficultySettings = {
     Easy: 5,
     Medium: 10,
@@ -46,10 +45,8 @@ function App() {
       setPokemonData(fetchedData);
       setLoading(false);
       setGameStarted(true);
-      
-      console.log("GELDİM",gameStarted)
-      
-      
+
+      // console.log("GELDİM",gameStarted)
     } catch (error) {
       console.error("Failed to fetch pokemon data: ", error);
     }
@@ -57,51 +54,73 @@ function App() {
 
   useEffect(() => {
     if (difficulty) {
-      
       fetchPokemonData(difficultySettings[difficulty], offset);
-      console.log("geldim"+" load state: ",loading);
-      
+      // console.log("geldim"+" load state: ",loading);
+
       setOffset(offset + difficultySettings[difficulty]);
     }
-  }, [difficulty,resetToggle]);
+  }, [difficulty, resetToggle]);
 
+  const shuffleArray = (arr) => {
+    let currentIndex = arr.length;
+    let randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [arr[currentIndex], arr[randomIndex]] = [
+        arr[randomIndex],
+        arr[currentIndex],
+      ];
+    }
+
+    return arr;
+  };
 
   const handleCardSelect = (id) => {
-    if(selectedCards.includes(id))
-    {
+    if (selectedCards.includes(id)) {
       console.log("You Lost!");
       setGameLost(true);
       resetGame();
-    }else{
+    } else {
       setSelectedCards([...selectedCards, id]);
       setScore(score + 1);
-      if(score + 1 > highScore ) setHighScore(score + 1);
-      setPokemonData(prev => [...prev].sort(() => Math.random() - 0.5));
+      if (score + 1 > highScore) setHighScore(score + 1);
+      setPokemonData((prev) => shuffleArray([...prev]));
     }
-
-  }
+  };
 
   const resetGame = () => {
-    setSelectedCards(0);
-    setScore(0);
     setLoading(true);
+    setSelectedCards([]);
+    setScore(0);
+
     setResetToggle(!resetToggle);
     setGameLost(false);
-  }
+  };
 
   return (
     <>
-    
-      {gameStarted ? (
-          <> 
-      <ScoreBoard score={score} highScore={highScore} totalCards={difficultySettings[difficulty]}/>
-      <GameBoard 
-      pokemonData={pokemonData}
-      handleCardSelect={handleCardSelect}/>
+      {loading === true ? (
+        <div className="loading-div">
+          <h1>LOADING GAME</h1>
+        </div>
+        
+      ) : gameStarted ? (
+        <>
+          <ScoreBoard
+            score={score}
+            highScore={highScore}
+            totalCards={difficultySettings[difficulty]}
+          />
+          <GameBoard
+            pokemonData={pokemonData}
+            handleCardSelect={handleCardSelect}
+          />
 
-      {gameLost && <GameOver resetGame={resetGame}/>}
-      </> 
-
+          {gameLost && <GameOver resetGame={resetGame} />}
+        </>
       ) : (
         <DifficultySelector
           onSelectDifficulty={setDifficulty}

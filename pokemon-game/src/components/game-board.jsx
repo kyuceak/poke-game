@@ -4,7 +4,6 @@ import "../styles/game-board-style.css"
 function GameBoard({pokemonData,handleCardSelect})
 {
 
-    console.log(pokemonData);
     return (
     <div className="card-container">
 

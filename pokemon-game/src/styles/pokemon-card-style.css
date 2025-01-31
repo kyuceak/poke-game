@@ -1,5 +1,5 @@
 .poke-card {
-  background-color: beige;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,6 +9,9 @@
   cursor: pointer;
   padding: 0rem;
   box-sizing: border-box;
+  border-radius: 0.6rem;
+  color: white;
+  
 }
 
 .poke-card img {

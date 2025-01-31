@@ -32,9 +32,7 @@ function DifficultySelector({ onSelectDifficulty, loading, setLoading }) {
     };
   }, [selectedIndex, difficulties, onSelectDifficulty]);
 
-  return loading ? (
-    <h1>LOADING GAME</h1>
-  ) : (
+  return  (
     <div className="modal">
       <div className="diff-container">
         <h2>Select Difficulty</h2>
