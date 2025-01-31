@@ -1,7 +1,7 @@
 import "../styles/game-over-style.css";
 import { useState, useEffect } from "react";
 
-function GameOver({ resetLevel, resetGame, setLoading, setGameLost }) {
+function GameWin({resetGame, setLoading, advanceLevel }) {
   console.log("came here");
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -21,9 +21,9 @@ function GameOver({ resetLevel, resetGame, setLoading, setGameLost }) {
           return (prevIndex - 1) % 2;
         });
       } else if (event.key === "Enter") {
-        setGameLost(false);
+        
         if (selectedIndex === 0) {
-          resetLevel();
+          advanceLevel()
         } else {
           resetGame();
         }
@@ -40,29 +40,29 @@ function GameOver({ resetLevel, resetGame, setLoading, setGameLost }) {
   return (
     <div className="gameover-overlay">
       <div className="over-modal">
-        <h2>Game Over!</h2>
+        <h2>You Won!</h2>
         <img
-          src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGlsZWxvcHFtYjZsandraTE1cGlwMzkwaTg0dm5nNWNkeDg4Zno4NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12Bpme5pTzGmg8/giphy.gif"
+          src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3dhbW8zenN2cmdxYTNqMWlkOWM3Y2IweDBpbHA2ZzA1MWhjdm5tMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/e5q0CVGJab5fmW8mme/giphy.gif"
           alt=""
         />
         <div className="options">
           <button
             className={0 === selectedIndex ? "selected" : ""}
             onClick={() => {
-              setGameLost(false);
+              
               setLoading(true);
-              resetLevel();
+              advanceLevel()
             }}
           >
             <span className={`arrow ${0 === selectedIndex ? "blink" : ""}`}>
               &#9654;
             </span>
-            Play again!
+            Advance level
           </button>
           <button
             className={1 === selectedIndex ? "selected" : ""}
             onClick={() => {
-              setGameLost(false);
+            
               setLoading(true);
               resetGame();
             }}
@@ -78,4 +78,4 @@ function GameOver({ resetLevel, resetGame, setLoading, setGameLost }) {
   );
 }
 
-export default GameOver;
+export default GameWin;

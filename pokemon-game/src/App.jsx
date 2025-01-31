@@ -5,6 +5,7 @@ import "@fontsource/press-start-2p";
 import ScoreBoard from "./components/score-board";
 import GameBoard from "./components/game-board";
 import GameOver from "./components/game-over";
+import GameWin from "./components/game-win";
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
@@ -57,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (difficulty) {
-      fetchPokemonData(difficultySettings[difficulty], offset);
+      fetchPokemonData(difficultySettings[difficulty], offset + 15);
       // console.log("geldim"+" load state: ",loading);
 
       setOffset(offset + difficultySettings[difficulty]);
@@ -113,6 +114,26 @@ function App() {
     // setGameLost(false);
   }
 
+  const advanceLevel = () => {
+    debugger; // eslint-disable-line no-debugger
+
+    setSelectedCards([]);
+    setScore(0);
+    setLoading(false);
+   
+    if(difficulty == "Easy")
+    {
+      setDifficulty("Medium");
+    }
+    else if(difficulty == "Medium")
+    {
+      setDifficulty("High");
+    }
+    setResetToggle(!resetToggle);
+     
+
+  }
+
   return (
     <>
       {loading === true ? (
@@ -135,7 +156,7 @@ function App() {
           />
 
           {gameLost && <GameOver resetLevel={resetLevel} resetGame={resetGame} setLoading={setLoading} setGameLost={setGameLost}/>}
-
+          {score == difficultySettings[difficulty] && <GameWin resetGame={resetGame} setLoading={setLoading} advanceLevel={advanceLevel}/>}
           
         </>
       ) : (
