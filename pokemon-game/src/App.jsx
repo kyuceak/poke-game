@@ -18,7 +18,6 @@ function App() {
   const [gameLost, setGameLost] = useState(false);
   const [shuffleCount, setShuffleCount] = useState(0);
 
-// On card redistribution:
 
 
   const difficultySettings = {
