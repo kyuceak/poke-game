@@ -17,7 +17,7 @@ function PokemonCard({ poke, handleCardSelect }) {
     >
       <div className="poke-card" onClick={() => handleCardSelect(poke.id)}>
         <div className="card-front">
-          <img src={poke.image} />
+          <img src={poke.image} draggable="false"/>
           <p>{poke.name}</p>
         </div>
 

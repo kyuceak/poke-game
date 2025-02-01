@@ -18,8 +18,6 @@ function App() {
   const [resetToggle, setResetToggle] = useState(false);
   const [gameLost, setGameLost] = useState(false);
   const [shuffleCount, setShuffleCount] = useState(0);
- 
-
 
   const difficultySettings = {
     Easy: 5,
@@ -27,27 +25,23 @@ function App() {
     Hard: 15,
   };
 
-  function generateNumber(max)
-  {
+  function generateNumber(max) {
     return Math.floor(Math.random() * max) + 1;
   }
   const fetchPokemonData = async () => {
     let count = difficultySettings[difficulty]; // Number of Pokémon to fetch
     let promises = [];
-    let list = []
-  
+    let list = [];
+
     for (let i = 0; i < count; i++) {
       let randomNum = generateNumber(100); // generate random Pokémon ID
-      if(list.includes(randomNum))
-      {
+      if (list.includes(randomNum)) {
         count++;
-        continue
-      }
-      else{
+        continue;
+      } else {
         list.push(randomNum);
       }
-    
-  
+
       // push fetch promises into the array
       promises.push(
         fetch(`https://pokeapi.co/api/v2/pokemon/${randomNum}`)
@@ -58,21 +52,23 @@ function App() {
             image: data.sprites.front_default,
           }))
           .catch((error) => {
-            console.error(`Failed to fetch Pokémon with ID ${randomNum}:`, error);
+            console.error(
+              `Failed to fetch Pokémon with ID ${randomNum}:`,
+              error
+            );
           })
       );
     }
-  
+
     try {
       const fetchedData = await Promise.all(promises); // wait for all requests to complete
-      setPokemonData(fetchedData.filter(Boolean)); 
+      setPokemonData(fetchedData.filter(Boolean));
       setLoading(false);
       setGameStarted(true);
     } catch (error) {
       console.error("Failed to fetch all Pokémon data:", error);
     }
   };
-  
 
   useEffect(() => {
     if (difficulty) {
@@ -122,7 +118,6 @@ function App() {
   };
 
   const resetGame = () => {
-    
     setSelectedCards([]);
     setScore(0);
     setHighScore(0);
@@ -130,27 +125,21 @@ function App() {
     setGameStarted(false);
     setLoading(false);
     // setGameLost(false);
-  }
+  };
 
   const advanceLevel = () => {
     debugger; // eslint-disable-line no-debugger
 
     setSelectedCards([]);
     setScore(0);
-    
-   
-    if(difficulty == "Easy")
-    {
+
+    if (difficulty == "Easy") {
       setDifficulty("Medium");
-    }
-    else if(difficulty == "Medium")
-    {
-      setDifficulty("High");
+    } else if (difficulty == "Medium") {
+      setDifficulty("Hard");
     }
     setResetToggle(!resetToggle);
-     
-
-  }
+  };
 
   return (
     <>
@@ -158,7 +147,6 @@ function App() {
         <div className="loading-div">
           <h1>LOADING GAME</h1>
         </div>
-        
       ) : gameStarted ? (
         <>
           <ScoreBoard
@@ -173,9 +161,21 @@ function App() {
             shuffleCount={shuffleCount}
           />
 
-          {gameLost && <GameOver resetLevel={resetLevel} resetGame={resetGame} setLoading={setLoading} setGameLost={setGameLost}/>}
-          {score == difficultySettings[difficulty] && <GameWin resetGame={resetGame} setLoading={setLoading} advanceLevel={advanceLevel}/>}
-          
+          {gameLost && (
+            <GameOver
+              resetLevel={resetLevel}
+              resetGame={resetGame}
+              setLoading={setLoading}
+              setGameLost={setGameLost}
+            />
+          )}
+          {score == difficultySettings[difficulty] && (
+            <GameWin
+              resetGame={resetGame}
+              setLoading={setLoading}
+              advanceLevel={advanceLevel}
+            />
+          )}
         </>
       ) : (
         <DifficultySelector
